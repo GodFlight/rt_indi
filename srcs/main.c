@@ -87,11 +87,19 @@ int		main(int argc, char **argv)
 	rt->screen.params |= PHONG;
 	fill_gpu_mem(rt);
 	draw_picture(rt);
+#ifdef LINUX___
+	mlx_hook(rt->win, 2, KeyPressMask, check_key, rt);
+	mlx_hook(rt->win, 17, 0, ft_esc, rt);
+	mlx_hook(rt->win, 4, ButtonPressMask, mouse_press, rt);
+	mlx_hook(rt->win, 5, ButtonReleaseMask, mouse_release, rt);
+	mlx_hook(rt->win, 6, PointerMotionMask, mouse_move, rt);
+#else
 	mlx_hook(rt->win, 2, 0, check_key, rt);
 	mlx_hook(rt->win, 17, 0, ft_esc, rt);
 	mlx_hook(rt->win, 4, 0, mouse_press, rt);
 	mlx_hook(rt->win, 5, 0, mouse_release, rt);
 	mlx_hook(rt->win, 6, 0, mouse_move, rt);
+#endif
 	mlx_loop(rt->mlx_ptr);
 	return (0);
 }
