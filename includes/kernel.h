@@ -19,6 +19,10 @@
 #  define GREEN(c)			(((int)c >> 8) & 0xFF)
 #  define BLUE(c)			((int)c & 0xFF)
 
+# ifdef LINUX___
+#  define M_PI	3.14159f
+# endif
+
 typedef struct	t_lighting
 {
 	float3		n;

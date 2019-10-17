@@ -24,12 +24,16 @@
 #  include <fcntl.h>
 #  include <stdio.h>
 #  include <time.h>
-#  include <OpenCL/cl.h>
+# ifdef LINUX___
+#  include <CL/cl.h>
+# else
+#  include <OpenCl/cl.h>
+# endif
 #  include <sys/time.h>
 # endif
 
-# define WIDTH		1280
-# define HEIGHT		1024
+# define WIDTH		800
+# define HEIGHT		600
 
 # ifndef OPENCL___
 #  define SPEED1 0.5f

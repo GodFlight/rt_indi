@@ -14,7 +14,11 @@
 # define LIBCL_H
 
 # define CL_SILENCE_DEPRECATION
-# include <OpenCL/opencl.h>
+# ifdef LINUX___
+#  include <CL/opencl.h>
+# else
+#  include <OpenCl/opencl.h>
+# endif
 # include <stdio.h>
 # include "libft.h"
 
