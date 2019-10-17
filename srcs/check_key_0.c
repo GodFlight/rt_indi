@@ -79,6 +79,34 @@ int		ft_save(t_rt *rt)
 	return (0);
 }
 
+#ifdef LINUX___
+int		check_key(int keycode, t_rt *rt)
+{
+	if (rt->mouse.r == 1 || rt->mouse.l == 1)
+		return (0);
+	if (keycode == 123 || keycode == 124)
+		ft_move_alpha(keycode, rt);
+	else if (keycode == 125 || keycode == 126)
+		ft_move_betta(keycode, rt);
+	else if (keycode == 13 || keycode == 1)
+		ft_move_x(keycode, rt);
+	else if (keycode == 0 || keycode == 2)
+		ft_move_y(keycode, rt);
+	else if (keycode == 15 || keycode == 3)
+		ft_move_z(keycode, rt);
+	else if ((keycode > 17) && (keycode < 22))
+		ft_aa(keycode, rt);
+	else if (keycode == 29)
+		return (ft_save(rt));
+	else if (keycode == 53)
+		return (ft_esc(rt));
+	else
+		return (0);
+	mlx_clear_window(rt->mlx_ptr, rt->win);
+	draw_picture(rt);
+	return (0);
+}
+#else
 int		check_key(int keycode, t_rt *rt)
 {
 	if (rt->mouse.r == 1 || rt->mouse.l == 1)
@@ -107,3 +135,4 @@ int		check_key(int keycode, t_rt *rt)
 	draw_picture(rt);
 	return (0);
 }
+#endif

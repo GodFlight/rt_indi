@@ -12,6 +12,7 @@
 
 #include "rt.h"
 
+#ifdef LINUX___
 int		ft_esc(t_rt *rt)
 {
 	release_gpu_mem(rt);
@@ -29,6 +30,47 @@ int		ft_aa(int keycode, t_rt *rt)
 
 int		ft_effects(int keycode, t_rt *rt)
 {
+	printf("aaa\n");
+	if (keycode == 122)
+		rt->screen.effects ^= GRAY;
+	else if (keycode == 120)
+	{
+		rt->screen.effects &= ~(DITHERING);
+		rt->screen.effects ^= THREE_D;
+	}
+	else if (keycode == 99)
+		rt->screen.effects ^= GAYSS_BLURE;
+	else if (keycode == 118)
+	{
+		rt->screen.effects &= ~(THREE_D);
+		rt->screen.effects ^= DITHERING;
+	}
+	else if (keycode == 108)
+	{
+		rt->screen.params ^= PHONG;
+		rt->screen.params ^= PATH_TRACE;
+	}
+	return (0);
+}
+#else
+int		ft_esc(t_rt *rt)
+{
+	release_gpu_mem(rt);
+	mlx_destroy_image(rt->mlx_ptr, rt->img.img_ptr);
+	mlx_destroy_window(rt->mlx_ptr, rt->win);
+	exit(0);
+	return (0);
+}
+
+int		ft_aa(int keycode, t_rt *rt)
+{
+	rt->screen.fsaa_n = 2 * (keycode - 18);
+	return (0);
+}
+
+int		ft_effects(int keycode, t_rt *rt)
+{
+	printf("bbb\n");
 	if (keycode == 6)
 		rt->screen.effects ^= GRAY;
 	else if (keycode == 7)
@@ -50,3 +92,4 @@ int		ft_effects(int keycode, t_rt *rt)
 	}
 	return (0);
 }
+#endif
