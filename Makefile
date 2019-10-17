@@ -12,6 +12,7 @@
 
 NAME	:= 		RT
 
+SYS_NAME :=     $(shell uname)
 SRC_DIR := 		./srcs
 INC_DIR := 		./includes
 OBJ_DIR	:=		./obj
@@ -20,7 +21,11 @@ LIB_DIR	:=		./libft
 IMG_DIR :=		./images
 
 CC		:= 		gcc
-CFLAGS	:= 		-Wall -Wextra -Werror -g -fsanitize=address 
+ifeq ($(SYS_NAME), Linux)
+CFLAGS	:= -O3 -g -D LINUX___
+else
+CFLAGS	:= 		-Wall -Wextra -Werror -g -fsanitize=address
+endif
 
 SRC		:=		main.c				            \
 				check_key_0.c		            \
@@ -45,7 +50,7 @@ SRC		:=		main.c				            \
 				rt_jtoc/rt_jtoc_get_basic_obj.c    \
 				rt_jtoc/rt_jtoc_get_lights.c    \
 				rt_jtoc/rt_jtoc_get_effects.c    \
-				rt_jtoc/rt_jtoc_mouse_setup.c    \
+				rt_jtoc/rt_jtoc_mouse_setup.c
 
 SRCS	:=		$(addprefix $(SRC_DIR)/, $(SRC))
 OBJ		:= 		$(SRC:.c=.o)
@@ -66,11 +71,17 @@ JC_LIB	:=		$(addprefix $(JC),libjtoc.a)
 JC_INC	:=		-I ./libjtoc/include
 JC_LNK	:=		-L ./libjtoc -l jtoc
 
-
+ifeq ($(SYS_NAME), Linux)
+MLX		:=		./minilibx_linux
+MLX_LIB	:=		$(addprefix $(MLX),libmlx.a)
+MLX_INC	:=		-I ./minilibx_linux
+MLX_LNK	:=		-L ./minilibx_linux -lmlx -lXext -lX11 -lm
+else
 MLX		:=		./minilibx
 MLX_LIB	:=		$(addprefix $(MLX),libmlx.a)
 MLX_INC	:=		-I ./minilibx
 MLX_LNK	:=		-L ./minilibx -l mlx -framework OpenGL -framework AppKit
+endif
 
 all:			dirs $(MLX_LIB) $(FT_LIB) $(CL_LIB) $(JC_LIB) $(OBJ_DIR) $(IMG_DIR) $(NAME)
 
@@ -100,8 +111,13 @@ $(IMG_DIR):
 $(OBJ_DIR)/%.o:	$(SRC_DIR)/%.c
 				$(CC) $(CFLAGS) -I $(INC_DIR) $(FT_INC) $(CL_INC) $(MLX_INC) $(JC_INC) -o $@ -c $<
 
+ifeq ($(SYS_NAME), Linux)
 $(NAME):		$(OBJS)
-				$(CC) $(CFLAGS) $(FT_LNK) $(CL_LNK) $(MLX_LNK) $(JC_LNK) $(OBJS) -o $(NAME) -framework OpenCL
+				$(CC) $(CFLAGS) $(OBJS) $(JC_LNK) $(CL_LNK) $(MLX_LNK) $(FT_LNK) -o $(NAME) -lOpenCL -lm
+else
+$(NAME):		$(OBJS)
+				$(CC) $(CFLAGS) $(OBJS) $(JC_LNK) $(CL_LNK) $(MLX_LNK) $(FT_LNK) -o $(NAME) -framework OpenCL
+endif
 
 clean:
 				rm -f $(OBJS)

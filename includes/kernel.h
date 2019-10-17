@@ -19,9 +19,7 @@
 #  define GREEN(c)			(((int)c >> 8) & 0xFF)
 #  define BLUE(c)			((int)c & 0xFF)
 
-# ifdef LINUX___
-#  define M_PI	3.14159f
-# endif
+//#  define M_PI	3.14159f for linux
 
 typedef struct	t_lighting
 {
@@ -41,6 +39,7 @@ float2	uv_mapping_for_cylinder(t_lighting *lighting, __global t_object *obj);
 float2	uv_mapping_for_torus(t_lighting *lighting, __global t_object *obj);
 float2	uv_mapping_for_plane(t_lighting *lighting);
 float2	uv_mapping_for_cone(t_lighting *lighting, __global t_object *obj);
+float2	uv_mapping_for_sqr(t_lighting *lighting, __global t_object *obj);
 
 //utilities
 float	reverse(int n);

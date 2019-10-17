@@ -14,6 +14,7 @@ include			../Makefile.inc
 
 NAME 		=	libcl.a
 
+SYS_NAME :=     $(shell uname)
 SRC_DIR		=	./src
 OBJ_DIR		=	./obj
 INC_DIR		=	./include
@@ -33,7 +34,11 @@ INCS		=	-I$(INC_DIR) -I$(FT_INC_DIR)
 LIBS		=	-L$(FT_DIR) -lft
 
 CC 			=	gcc
-CFLAGS		=	-Wall -Werror -Wextra -g
+ifeq ($(SYS_NAME), Linux)
+CFLAGS	:= -O3 -g -D LINUX___
+else
+CFLAGS	:= 		-Wall -Wextra -Werror -g
+endif
 
 all: $(NAME)
 
