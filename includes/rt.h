@@ -89,6 +89,7 @@ typedef struct			s_material
 	float				sp_ex;
 	float				refraction;
 	float				reflection;
+	float				clouding;
 	cl_float3			emission;
 	int					texture_id;
 # else
@@ -98,6 +99,7 @@ typedef struct			s_material
 	float				sp_ex;
 	float				refraction;
 	float				reflection;
+	float				clouding;
 	float3				emission;
 	int					texture_id;
 # endif
