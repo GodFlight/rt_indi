@@ -26,6 +26,7 @@
 #  include <time.h>
 # ifdef LINUX___
 #  include <CL/cl.h>
+#  include <X11/Xlib.h>
 # else
 #  include <OpenCl/cl.h>
 # endif
